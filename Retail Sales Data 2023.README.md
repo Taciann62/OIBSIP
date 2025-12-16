@@ -259,12 +259,38 @@ write.csv(Total_Purchases_DOW_Product, "Sales_Trend_DOW.csv", row.names = FALSE)
 write.csv(Retail_Revenue, "KPI Cards.csv", row.names = FALSE)
 ```
 
+# Data Visualization 
+### For the visualisation of the exported tables to gain graphical insights into the Retail sales data. The dataset was individually uploaded on Tableau Public.
+### The link below guides you to the tableau workbook used for the visulaization.
+
+
+
+
+<img width="1366" height="768" alt="Screenshot (69)" src="https://github.com/user-attachments/assets/d6a59c43-f7a2-428d-a77d-e1c1135250c4" />
 
 
 
 
 
 
+
+###
+
+
+
+<img width="1366" height="768" alt="Screenshot (70)" src="https://github.com/user-attachments/assets/3a5e6413-4c1d-4426-9934-7ba9b97df4a0" />
+
+
+
+
+
+###
+
+
+
+
+
+<img width="1366" height="768" alt="Screenshot (71)" src="https://github.com/user-attachments/assets/d96a6b80-2d46-44ad-8af4-96bae3c88b58" />
 
 
 
