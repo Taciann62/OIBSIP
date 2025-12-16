@@ -315,12 +315,15 @@ write.csv(Retail_Revenue, "KPI Cards.csv", row.names = FALSE)
 However, to limit waste, the retail store should maintain quantity and also check for specifically demanded beauty products requested by this age group and push along other products with them, to ensure availability and also pricing review to provide affordable and quality products for the age group.
 
 
-### Gender-based Purchasing Behaviour
-#### Gender-based analysis reveals differences in product preference and spending patterns across categories.
-#### Female customers contributed a slightly higher share of total revenue, driven largely by Clothing and Electronics purchases, but high Beauty purchases compared to Male customers.
-#### Male customers showed stronger spending in Electronics, contributing disproportionately to revenue despite lower transaction counts.
-#### Average transaction value was higher among male customers in Electronics, indicating fewer but higher-value purchases.
-#### These patterns suggest that gender-informed product positioning and promotions could enhance category performance without requiring separate marketing campaigns.
+#### Gender-based Purchasing Behaviour
+##### Gender-based analysis reveals differences in product preference and spending patterns across categories.
+- Female customers contributed a slightly higher share of total revenue, driven largely by Clothing and Electronics purchases, but high Beauty purchases compared to Male customers.
+- Male customers showed stronger spending in Electronics, contributing disproportionately to revenue despite lower transaction counts.
+- Average transaction value was higher among male customers in Electronics, indicating fewer but higher-value purchases.
+- These patterns suggest that gender-informed product positioning and promotions could enhance category performance without requiring separate marketing campaigns.
+
+
+### Recommendations:
 
 
 ## Data Visualization 
