@@ -69,7 +69,8 @@ unique(Retail_Sales_Data_retail_sales_dataset)
 
 #### To remove duplicates and have only a unique set
 ```R
-Retail_sales<-distinct(Retail_Sales_Data_retail_sales_dataset) 
+Retail_sales<-(Retail_Sales_Data_retail_sales_dataset) %>%
+distinct()
 ```
 *<- renames the dataset*
 
@@ -102,7 +103,7 @@ names(Retail_sales)`
 ## Find duplicates and inconsistencies, missing values 
 
 ```R
-   is.na(Retail_sales) *<- checks for mssing values*
+   is.na(Retail_sales) 
 
 unique(Retail_sales)
 ```
