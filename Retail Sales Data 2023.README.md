@@ -327,6 +327,13 @@ However, to limit waste, the retail store should maintain quantity and also chec
 
 ### Recommendations:
 
+#### Below are the recommendations for the Retail store: 
+- Increase inventory and promotional focus on Electronics during peak months such as May, where demand and revenue peak.
+- Introduce targeted Beauty promotions for Young Adult customers, who show high average spend despite lower overall purchase volume.
+- Schedule and ensure there are more hands to support sales and product promotions around peak sales days like Tuesdays to optimise operational efficiency.
+- Develop gender-informed marketing strategies that particularly promote Electronics to male customers and Beauty/Clothing bundles to female customers.
+- Implement demand stimulation strategies during low-performing months (March and September) using discounts or bundled offers.
+
 
 ## Data Visualization 
 ### For the visualisation of the exported tables to gain graphical insights into the Retail sales data. The dataset tables were uploaded individually to Tableau Public.
