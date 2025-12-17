@@ -1,33 +1,5 @@
 # Retail Sales Data 2023 
 
----
-## Table Of Content
-- [Introduction](#introduction)
-
-- [Project Overview](#project-overview)
-  
-- [Data Analytics Objective](data-analytics-objective)
-
-- [Business Question](business-question)
-
-- [Tools](tools)
-  
-- [Data preparation and Observation](data-preparation-and-observation)
-  
- - [Data Analytics](data-analytics)
-  
-   - [Data Cleaning and Manipulation](data-cleaning-and-manipulation)
-  
-- [Descirptive Data Analysis](descriptive-data-analysis)
-
-- [Exploratory Data Analysis](exploratory-data-analysis)
-  
-   - [Exploratory Data Analysis](exploratory-data-analysis)
-
-- [Recommendations](recommendations)
-
-- [Data Visualization ](data-visualization )
-
 
 
 ## Introduction
