@@ -1,6 +1,20 @@
 # Customer Segmentation Analysis
 
 
+## Introduction
+
+This data analytics project is completed as part of the Oasis Infobyte internship program (December Batch 2025).
+The team provided the data through an open-source data platform, Kaggle. It contains a sales record of an Ecommerce store, alongside key fields such as Customer Gender, Product Name, Age, Product type, and the amount and Quantity purchased by each customer.
+
+### Project Overview
+The retail store collected a well-rounded dataset of its customers to get insight into their customer behaviour towards the products sold and, in that way, make a more informed business decision. The goal is to perform exploratory data analysis (EDA) to uncover patterns, trends, and insights that can help the retail business make informed decisions.
+Through the analysis of this data, insights will also be provided into customer purchasing behaviour over the year 2023, with each month clearly represented.
+
+## My Role
+On this project, I assume the role of the data analyst to uncover these insights, provide recommendations that influence decision-making.
+
+## Data Analytics Objective
+
 
 
 
