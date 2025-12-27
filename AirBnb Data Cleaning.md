@@ -171,19 +171,14 @@ summary(AB_NYC_Final$price)
 Result: Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 10      65     100     120     159     334 
 
-##PLot
+## PLot
+```R
 library(ggplot2)
 
 boxplot(AB_NYC_Final$price, main = "Boxplot of Price", ylab = "Total Prices", col = "Red")
-
+```
 <img width="533" height="376" alt="Airbnb Price Wout Outliers" src="https://github.com/user-attachments/assets/057f3995-5d6e-46eb-be7b-0a58fe5c15b5" />
 
-After cleaning and removing invalid and extreme pricing values, Airbnb listings showed a strong concentration between $65–$175 per night. Listings priced above $334 were identified as statistical outliers and removed to prevent skewed summaries. Review segmentation revealed that most listings fall within the “Poor” to “Good” engagement range, indicating opportunities for hosts to improve visibility and guest interaction.
-
-top_performing_cities<-AB_NYC_Final %>% 
- group_by(Year, Month) %>% 
-  summarise(prices = sum(price))
-  
 ## Segment the reviews
 
 AB_NYC_Final <- AB_NYC_Final %>%
@@ -193,6 +188,9 @@ AB_NYC_Final <- AB_NYC_Final %>%
     reviews_per_month  >= 6.00 & reviews_per_month  <= 7.99 ~ "High",
     reviews_per_month  >= 8.00 & reviews_per_month  <= 9.99 ~ "Excellent",
      reviews_per_month >= 10.00 & reviews_per_month <= 80.99 ~ "Outbound", TRUE ~ NA_character_ ))
+
+After cleaning and removing invalid and extreme pricing values, Airbnb listings showed a strong concentration between $65–$175 per night. Listings priced above $334 were identified as statistical outliers and removed to prevent skewed summaries. Review segmentation revealed that most listings fall within the “Poor” to “Good” engagement range, indicating opportunities for hosts to improve visibility and guest interaction.
+
 
 unique(AB_NYC_Final$reviews_per_month)
 
