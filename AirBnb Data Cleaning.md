@@ -132,31 +132,31 @@ boxplot(AB_NYC$price , main = "Boxplot of Price", ylab = "Total Prices", col = "
 
 ## Fix outliers in prices
 
+```R
 AB_NYC <-AB_NYC %>% 
   mutate(price = as.numeric(price))
+```
+Drop rows where prices = 0 so as to easily apply IQR to yield clear result and remove necessary outliers
+```R
+AB_NYC <- AB_NYC %>%
+  filter(price > 0)
+```
 
-Room_type <- AB_NYC%>% 
-  group_by(room_type, price, minimum_nights)
-
+### Detecting and Fixing Outliers. 1. Calculate IQR for Price
 
 quantile(AB_NYC$price)
    Result: 0%   25%   50%   75%  100% 
            10    69   106   175 10000 
-
-## Detecting and Fixing Outliers. 1. Calculate IQR for Price
 
 Q1 <- quantile(AB_NYC$price, 0.25)
 Q3 <- quantile(AB_NYC$price, 0.75)
 IQR_value <- Q3 - Q1
 
 View(IQR_value)
-# Define Bounds
+
+_Define Bounds_
 lower_bound <- Q1 - 1.5 * IQR_value
 upper_bound <- Q3 + 1.5 * IQR_value
-
-
-outlier_rows <- AB_NYC[AB_NYC$price < lower_bound | 
-                            AB_NYC$price > upper_bound, ]
 
 summary(AB_NYC$price)
 Result:  
@@ -169,7 +169,7 @@ AB_NYC_Final <- AB_NYC %>%
 
 summary(AB_NYC_Final$price)
 Result: Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-0      65     100     120     159     334 
+10      65     100     120     159     334 
 
 ##PLot
 library(ggplot2)
