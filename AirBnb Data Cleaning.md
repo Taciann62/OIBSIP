@@ -75,10 +75,10 @@ AB_NYC <- AB_NYC %>%
   mutate(reviews_per_month = ifelse(is.na(reviews_per_month), 0.0, reviews_per_month))
 
 AB_NYC <- AB_NYC %>% 
-  mutate(Day = ifelse(is.na(Day), 0, Day))
+  mutate(Day = ifelse(is.na(Day), NA, Day))
 
 AB_NYC <- AB_NYC %>% 
-  mutate(Year = ifelse(is.na(Year), 0, Year))
+  mutate(Year = ifelse(is.na(Year), NA, Year))
 ```
 
 The data was further evaluated to identify unique names relevant for data filtering, grouping, and analysis. This revealed that there are  
