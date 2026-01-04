@@ -13,9 +13,9 @@ Housing <- Housing %>% distinct()
 str(Housing)
 summary(Housing)
 
-## ================================
+
 ## OUTLIER HANDLING (IQR)
-## ================================
+
 
 # Price
 PQ1 <- quantile(Housing$price, 0.25)
@@ -37,18 +37,14 @@ Housing_Q <- Housing_Q %>%
 
 summary(Housing_Q)
 
-## ================================
 ## FEATURE SELECTION
-## ================================
 
 Housing_Refit <- Housing_Q %>%
   select(price, area, bathrooms, stories,
          airconditioning,
          parking, prefarea)
 
-## ================================
 ## TRAIN / TEST SPLIT
-## ================================
 
 set.seed(123)
 index_exp <- sample(seq_len(nrow(Housing_Refit)), 0.8 * nrow(Housing_Refit))
@@ -56,9 +52,8 @@ index_exp <- sample(seq_len(nrow(Housing_Refit)), 0.8 * nrow(Housing_Refit))
 train_exp <- Housing_Refit[index_exp, ]
 test_exp  <- Housing_Refit[-index_exp, ]
 
-## ================================
 ## CORRELATION (NUMERIC + ENCODED CATEGORICAL)
-## ================================
+#
 
 Housing_Num <- Housing_Refit %>%
   mutate(across(where(is.character), factor)) %>%
@@ -75,9 +70,9 @@ ggcorrplot(
   title = "Correlation Heatmap (No Outliers)"
 )
 
-## ================================
+
 ## LINEAR REGRESSION MODEL
-## ================================
+
 
 model_exp <- lm(price ~ ., data = train_exp)
 summary(model_exp)
@@ -105,9 +100,9 @@ Residual standard error: 989500 on 409 degrees of freedom
 Multiple R-squared:  0.6077,	Adjusted R-squared:  0.6019 
 F-statistic: 105.6 on 6 and 409 DF,  p-value: < 2.2e-16
 
-## ================================
+
 ## MODEL DIAGNOSTICS
-## ================================
+
 
 par(mfrow = c(2, 2))
 plot(model_exp, col = "blue")
@@ -138,9 +133,8 @@ area              1 2.9148e+14 2.9148e+14 297.714 < 2.2e-16 ***
   Residuals       409 4.0044e+14 9.7906e+11                      
 ---
   Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-## ================================
+
 ## TEST SET EVALUATION
-## ================================
 
 exp_predictions <- predict(model_exp, newdata = test_exp)
 
@@ -164,9 +158,10 @@ Evaluation Metrics:
  MSE: 1.12903e+12 
  RMSE: 1062558 
  R-squared: 0.6060161
-## ================================
+
+
 ## ACTUAL vs PREDICTED
-## ================================
+
 
 ggplot(data = NULL, aes(x = exp_actuals, y = exp_predictions)) +
   geom_point(alpha = 0.5, color = "blue") +
@@ -179,12 +174,6 @@ ggplot(data = NULL, aes(x = exp_actuals, y = exp_predictions)) +
     y = "Predicted Price"
   ) +
   theme_minimal()
-
-
-
-
-
-
 
 
 
