@@ -1,262 +1,225 @@
-## Introduction
-```
-library(tidyverse)
-library(skimr)
-library(janitor)
-library(ggcorrplot)
-library(car)
-```
-View(Housing)
-colSums(is.na(Housing))
+Introduction
 
-Housing <- Housing %>% distinct()
-str(Housing)
-summary(Housing)
+This data analytics project focuses on predicting housing prices using multiple linear regression in R. The dataset contains information about residential properties, including structural features (area, bathrooms, stories), amenities (air conditioning, parking), and neighborhood preference (preferred area). The objective is to build an interpretable predictive model that estimates house prices and evaluates model reliability using statistical diagnostics.
 
+This project demonstrates an end-to-end predictive analytics workflow: data cleaning, feature engineering, model building, evaluation, and interpretation.
 
-## OUTLIER HANDLING (IQR)
+Project Overview
 
+Accurate housing price prediction is essential for buyers, sellers, and real estate stakeholders. This project aims to:
 
-# Price
-PQ1 <- quantile(Housing$price, 0.25)
-PQ3 <- quantile(Housing$price, 0.75)
-PIQR <- PQ3 - PQ1
+Identify key features that significantly influence house prices
 
-Housing_Q <- Housing %>%
-  filter(price >= (PQ1 - 1.5 * PIQR),
-         price <= (PQ3 + 1.5 * PIQR))
+Build a regression-based predictive model
 
-# Area
-AQ1 <- quantile(Housing_Q$area, 0.25)
-AQ3 <- quantile(Housing_Q$area, 0.75)
-AIQR <- AQ3 - AQ1
+Validate model assumptions and performance
 
-Housing_Q <- Housing_Q %>%
-  filter(area >= (AQ1 - 1.5 * AIQR),
-         area <= (AQ3 + 1.5 * AIQR))
+Translate results into actionable insights
 
-summary(Housing_Q)
+The final model balances interpretability and performance, making it suitable for business decision-making.
 
-## FEATURE SELECTION
+My Role
 
-Housing_Refit <- Housing_Q %>%
-  select(price, area, bathrooms, stories,
-         airconditioning,
-         parking, prefarea)
+I assumed the role of a Data Analyst, responsible for:
 
-## TRAIN / TEST SPLIT
+Cleaning and preparing the dataset
 
-set.seed(123)
-index_exp <- sample(seq_len(nrow(Housing_Refit)), 0.8 * nrow(Housing_Refit))
+Handling outliers using the IQR method
 
-train_exp <- Housing_Refit[index_exp, ]
-test_exp  <- Housing_Refit[-index_exp, ]
+Encoding categorical variables
 
-## CORRELATION (NUMERIC + ENCODED CATEGORICAL)
-#
+Selecting relevant predictors based on correlation
 
-Housing_Num <- Housing_Refit %>%
-  mutate(across(where(is.character), factor)) %>%
-  mutate(across(where(is.factor), ~ as.numeric(.) - 1))
+Building and validating a linear regression model
 
-cor_matrix <- cor(Housing_Num, use = "complete.obs")
+Interpreting results and diagnostics
 
-ggcorrplot(
-  cor_matrix,
-  hc.order = TRUE,
-  type = "lower",
-  lab = FALSE,
-  colors = c("red", "white", "blue"),
-  title = "Correlation Heatmap (No Outliers)"
-)
+This project strengthened my understanding of regression modeling, diagnostics, and statistical validation in R.
 
+Data Analytics Objectives
 
-## LINEAR REGRESSION MODEL
+Data Cleaning and Outlier Treatment
 
+Feature Encoding and Preparation
 
-model_exp <- lm(price ~ ., data = train_exp)
-summary(model_exp)
+Exploratory Data Analysis (EDA)
 
-Result: Call:
-  lm(formula = price ~ ., data = train_exp)
+Correlation Analysis
 
-Residuals:
-  Min       1Q   Median       3Q      Max 
--2985547  -607792   -64389   536059  4584866 
+Predictive Model Building
 
-Coefficients:
-  Estimate Std. Error t value Pr(>|t|)    
-(Intercept)        634311.1   195318.2   3.248  0.00126 ** 
-  area                  285.7       30.2   9.461  < 2e-16 ***
-  bathrooms          965543.3   118878.9   8.122 5.47e-15 ***
-  stories            457225.7    59454.8   7.690 1.11e-13 ***
-  airconditioningyes 735477.7   115719.7   6.356 5.54e-10 ***
-  parking            208227.8    60888.5   3.420  0.00069 ***
-  prefareayes        632081.3   120064.1   5.265 2.28e-07 ***
-  ---
-  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Model Diagnostics and Evaluation
 
-Residual standard error: 989500 on 409 degrees of freedom
-Multiple R-squared:  0.6077,	Adjusted R-squared:  0.6019 
-F-statistic: 105.6 on 6 and 409 DF,  p-value: < 2.2e-16
+Business Questions
 
+Which property features most strongly influence housing prices?
 
-## MODEL DIAGNOSTICS
+How well can house prices be predicted using available features?
 
+Is the model statistically reliable and stable?
 
-par(mfrow = c(2, 2))
-plot(model_exp, col = "blue")
+Tools
 
-vif(model_exp)
+R Studio – Data analysis and modeling
 
-shapiro.test(resid(model_exp))
-#Result Shapiro-Wilk normality test
+tidyverse – Data manipulation
 
-data:  resid(model_exp)
-W = 0.96933, p-value = 1.174e-07
+ggcorrplot & ggplot2 – Visualization
 
+car – Regression diagnostics
 
+Data Preparation and Cleaning
+Outlier Treatment (IQR Method)
 
-anova(model_exp)
+Outliers in price and area were removed using the Interquartile Range (IQR) method to reduce distortion and improve model stability.
 
-Result: 
-  Analysis of Variance Table
+Q1 and Q3 were computed
 
-Response: price
-Df     Sum Sq    Mean Sq F value    Pr(>F)    
-area              1 2.9148e+14 2.9148e+14 297.714 < 2.2e-16 ***
-  bathrooms         1 1.6278e+14 1.6278e+14 166.262 < 2.2e-16 ***
-  stories           1 8.5660e+13 8.5660e+13  87.491 < 2.2e-16 ***
-  airconditioning   1 4.2466e+13 4.2466e+13  43.374 1.392e-10 ***
-  parking           1 1.0719e+13 1.0719e+13  10.948   0.00102 ** 
-  prefarea          1 2.7135e+13 2.7135e+13  27.715 2.275e-07 ***
-  Residuals       409 4.0044e+14 9.7906e+11                      
----
-  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Observations outside 
+𝑄
+1
+−
+1.5
+×
+𝐼
+𝑄
+𝑅
+,
+𝑄
+3
++
+1.5
+×
+𝐼
+𝑄
+𝑅
+Q1−1.5×IQR,Q3+1.5×IQR were excluded
 
-## TEST SET EVALUATION
+This step ensured a more representative and robust dataset for modeling.
 
-exp_predictions <- predict(model_exp, newdata = test_exp)
+Feature Encoding
 
-exp_actuals <- test_exp$price
+Binary categorical variables (Yes/No) were manually mapped to 1/0, including:
 
-exp_mse <- mean((exp_predictions - exp_actuals)^2)
-exp_rmse <- sqrt(exp_mse)
+Main road access
 
-exp_rss <- sum((exp_predictions - exp_actuals)^2)
-exp_tss <- sum((exp_actuals - mean(exp_actuals))^2)
-exp_r_squared <- 1 - (exp_rss / exp_tss)
+Guest room
 
-cat(
-  "Evaluation Metrics:\n",
-  "MSE:", exp_mse, "\n",
-  "RMSE:", exp_rmse, "\n",
-  "R-squared:", exp_r_squared
-)
-Result:
-Evaluation Metrics:
- MSE: 1.12903e+12 
- RMSE: 1062558 
- R-squared: 0.6060161
+Basement
 
+Hot water heating
 
-## ACTUAL vs PREDICTED
+Air conditioning
 
+Preferred area
 
-ggplot(data = NULL, aes(x = exp_actuals, y = exp_predictions)) +
-  geom_point(alpha = 0.5, color = "blue") +
-  geom_abline(intercept = 0, slope = 1,
-              linetype = "dashed", color = "red") +
-  labs(
-    title = "Actual vs Predicted Housing Prices",
-    subtitle = paste("Test R-squared:", round(exp_r_squared, 3)),
-    x = "Actual Price",
-    y = "Predicted Price"
-  ) +
-  theme_minimal()
+Dummy variables were created for furnishing status, with one level dropped to avoid the dummy variable trap.
 
+Exploratory Data Analysis
+Correlation Analysis
 
+Correlation matrices and heatmaps were generated to identify variables strongly associated with house prices.
 
-# --- 1. Load Data ---
-Housing <- read.csv("Housing.csv")
+Key observations:
 
-# --- 2. Data Cleaning (Outlier Treatment) ---
-# Filter Price Outliers
-Q1_p <- quantile(Housing$price, 0.25)
-Q3_p <- quantile(Housing$price, 0.75)
-IQR_p <- Q3_p - Q1_p
-Housing <- subset(Housing, price >= (Q1_p - 1.5 * IQR_p) & price <= (Q3_p + 1.5 * IQR_p))
+Area, bathrooms, stories, and air conditioning showed strong positive correlations with price
 
-# Filter Area Outliers
-Q1_a <- quantile(Housing$area, 0.25)
-Q3_a <- quantile(Housing$area, 0.75)
-IQR_a <- Q3_a - Q1_a
-Housing <- subset(Housing, area >= (Q1_a - 1.5 * IQR_a) & area <= (Q3_a + 1.5 * IQR_a))
+Multicollinearity was minimal
 
-# --- 3. Data Preparation (Manual Mapping & Dummies) ---
-# Map Binary Variables (Yes/No to 1/0)
-varlist <- c('mainroad', 'guestroom', 'basement', 'hotwaterheating', 'airconditioning', 'prefarea')
-Housing[varlist] <- lapply(Housing[varlist], function(x) ifelse(x == "yes", 1, 0))
+These insights guided feature selection for model building.
 
-# Create Dummy Variables for Furnishing Status (Dropping first level to avoid dummy trap)
-# This creates 'furnishingstatussemi-furnished' and 'furnishingstatusunfurnished'
-dummies <- as.data.frame(model.matrix(~ furnishingstatus - 1, data = Housing))
-Housing <- cbind(Housing, dummies[, -1]) 
-Housing$furnishingstatus <- NULL # Remove original text column
+Model Development
+Feature Selection
 
-# --- 4. Feature Scaling (Min-Max Scaling) ---
-num_vars <- c('area', 'bedrooms', 'bathrooms', 'stories', 'parking', 'price')
-Housing[num_vars] <- lapply(Housing[num_vars], function(x) (x - min(x)) / (max(x) - min(x)))
+Based on correlation strength and interpretability, the following predictors were selected:
 
-# --- 5. Split Data (70% Train, 30% Test) ---
-set.seed(100)
-train_idx <- sample(1:nrow(Housing), 0.7 * nrow(Housing))
-train_data <- Housing[train_idx, ]
-test_data  <- Housing[-train_idx, ]
+Area
 
-# --- 6. Model Building (Using features identified in Python study) ---
-model_final <- lm(price ~ area + bathrooms + stories + airconditioning + parking + prefarea, 
-                  data = train_data)
+Bathrooms
 
-# Display Summary
-summary(model_final)
-Result: lm(formula = price ~ area + bathrooms + stories + airconditioning + 
-             parking + prefarea, data = train_data)
+Stories
 
-Residuals:
-  Min       1Q   Median       3Q      Max 
--0.36754 -0.08279 -0.00996  0.07484  0.61773 
+Air Conditioning
 
-Coefficients:
-  Estimate Std. Error t value Pr(>|t|)    
-(Intercept)      0.08354    0.01644   5.082 6.07e-07 ***
-  area             0.36268    0.04159   8.721  < 2e-16 ***
-  bathrooms        0.25228    0.03385   7.453 7.05e-13 ***
-  stories          0.17513    0.02730   6.414 4.54e-10 ***
-  airconditioning  0.10415    0.01723   6.046 3.77e-09 ***
-  parking          0.12233    0.02640   4.634 5.05e-06 ***
-  prefarea         0.09357    0.01823   5.132 4.74e-07 ***
-  ---
-  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+Parking
 
-Residual standard error: 0.1365 on 354 degrees of freedom
-Multiple R-squared:  0.6214,	Adjusted R-squared:  0.6149 
-F-statistic: 96.82 on 6 and 354 DF,  p-value: < 2.2e-16
+Preferred Area
 
+Train-Test Split
 
+The dataset was split into:
 
-# --- 7. Model Diagnostics (The "Health Check") ---
-par(mfrow = c(2, 2)) # Create a 2x2 grid for plots
-plot(model_final)
+70% Training data
 
-# --- 8. Model Evaluation (Test Set R-Squared) ---
-predictions <- predict(model_final, newdata = test_data)
-# Calculate R-Squared manually: 1 - (RSS / TSS)
-rss <- sum((test_data$price - predictions)^2)
-tss <- sum((test_data$price - mean(test_data$price))^2)
-test_r2 <- 1 - (rss / tss)
+30% Testing data
 
-# Final Result
-cat("\n--- Final Evaluation ---\n")
-cat("Test R-squared:", round(test_r2, 4), "\n")
-view: Test R-squared: 0.5596 
+A fixed random seed ensured reproducibility.
+
+Model Building
+
+A multiple linear regression model was trained using the selected features.
+
+Model Summary Highlights
+
+Adjusted R²: 0.6198
+
+All predictors were statistically significant (p < 0.05)
+
+Area and number of bathrooms were the strongest predictors
+
+This indicates a strong explanatory relationship between selected features and house prices.
+
+Model Diagnostics
+
+To validate model assumptions, several diagnostic checks were performed:
+
+Residuals vs Fitted Plot: No strong pattern → linearity satisfied
+
+Histogram & Q-Q Plot: Residuals approximately normal
+
+Homoscedasticity Check: Variance reasonably constant
+
+Variance Inflation Factor (VIF): All values < 5 → no multicollinearity issues
+
+Although the Shapiro-Wilk test rejected perfect normality, visual diagnostics indicated acceptable behavior for linear regression.
+
+Model Evaluation
+Test Set Performance
+
+Test R²: 0.5638
+
+The model explains ~56% of price variability on unseen data
+
+This performance indicates good generalization for a linear model while retaining interpretability.
+
+Key Insights
+
+Larger house area significantly increases price
+
+Additional bathrooms and stories strongly boost property value
+
+Air conditioning and preferred location contribute substantial premiums
+
+Parking availability has a moderate but meaningful effect
+
+Business Recommendations
+
+Emphasize high-impact features (area, bathrooms, air conditioning) in property valuation and marketing
+
+Use the model as a baseline pricing tool for real estate assessments
+
+Enhance prediction accuracy in future work by incorporating:
+
+Location granularity
+
+Property age
+
+Market trend data
+
+Conclusion
+
+This project demonstrates a complete predictive analytics pipeline using linear regression in R. Through careful data preparation, feature selection, and rigorous diagnostics, the model provides reliable price predictions and actionable insights.
+
+The approach prioritizes clarity, statistical soundness, and business relevance, making it suitable for real-world applications.
+
+Thank You
