@@ -1,4 +1,4 @@
-# Retail Sales Data 2023 
+# Retail Sales 2023
 
 
 ## Introduction
